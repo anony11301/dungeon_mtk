@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dungeon Angka</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="hud" id="hud" hidden>
+    <div class="hearts" id="hearts"></div>
+    <div class="chips">
+      <span class="chip" id="chipFloor">LANTAI 1/3</span>
+      <span class="chip" id="chipScore">0</span>
+      <span class="chip hot" id="chipCombo" hidden>KOMBO x3</span>
+    </div>
+    <div class="relics" id="relics" hidden></div>
+  </div>
+
+  <canvas id="scene" width="320" height="180" role="img" aria-label="Ruang dungeon dengan pahlawan dan monster"></canvas>
+
+  <!-- Menu -->
+  <section class="panel" id="pTitle">
+    <h1 class="logo">DUNGEON<br>ANGKA</h1>
+    <p class="tag">Jelajahi dungeon, jawab soal hitungan, kalahkan monster, dan taklukkan 3 lantai.</p>
+
+    <div class="lab">Tingkat awal</div>
+    <div class="opts" id="optLevel">
+      <button type="button" class="opt" data-v="pemula" aria-pressed="false">Pemula<small>soal paling mudah</small></button>
+      <button type="button" class="opt" data-v="menengah" aria-pressed="true">Menengah<small>SD besar sampai SMP</small></button>
+      <button type="button" class="opt" data-v="mahir" aria-pressed="false">Mahir<small>tantangan lebih berat</small></button>
+    </div>
+
+    <div class="lab">Topik soal</div>
+    <div class="opts" id="optTopics">
+      <button type="button" class="opt" data-v="tambahkurang" aria-pressed="true">Tambah &amp; Kurang</button>
+      <button type="button" class="opt" data-v="kalibagi" aria-pressed="true">Kali &amp; Bagi</button>
+      <button type="button" class="opt" data-v="pecahan" aria-pressed="true">Pecahan &amp; Persen</button>
+      <button type="button" class="opt" data-v="aljabar" aria-pressed="true">Aljabar</button>
+    </div>
+
+    <div class="lab">Pengaturan</div>
+    <div class="opts">
+      <button type="button" class="opt" id="optChill" aria-pressed="false">Mode santai<small>tanpa batas waktu</small></button>
+    </div>
+
+    <div class="how">
+      <div>1. Pilih pintu: monster, peti harta, atau mata air.</div>
+      <div>2. Jawab soal. Benar = menyerang, salah = diserang.</div>
+      <div>3. Jawab beruntun untuk kombo dan serangan kritis. Soal menyesuaikan kemampuanmu.</div>
+    </div>
+
+    <div class="row" style="margin-top:18px">
+      <button type="button" class="btn" id="btnStart">Mulai petualangan</button>
+    </div>
+    <div class="best" id="bestLine"></div>
+  </section>
+
+  <!-- Pilih pintu -->
+  <section class="panel" id="pMap" hidden>
+    <h2 id="mapTitle">LANTAI 1 · RUANG 1 DARI 5</h2>
+    <div class="track" id="track" aria-hidden="true"></div>
+    <div class="doors" id="doors"></div>
+  </section>
+
+  <!-- Pertarungan / soal -->
+  <section class="panel" id="pBattle" hidden>
+    <div class="qmeta"><span id="roomName">Slime</span><span id="qinfo">Perkalian · Tingkat 3</span></div>
+    <div class="q" id="qtext" aria-live="polite">12 × 7 = ?</div>
+    <div class="timer" id="timer"><i id="timerFill"></i></div>
+    <div class="answers" id="answers"></div>
+    <div class="fb" id="fb" hidden aria-live="polite">
+      <div id="fbText"></div>
+      <button type="button" class="btn small" id="btnNext">Lanjut</button>
+    </div>
+    <div class="tools"><button type="button" class="btn small ghost" id="eye" hidden>Mata Elang: singkirkan 2 jawaban salah</button></div>
+  </section>
+
+  <!-- Hadiah -->
+  <section class="panel" id="pReward" hidden>
+    <h2 id="rewardTitle">PILIH RELIK</h2>
+    <p class="muted" style="margin:0 0 12px">Relik bertahan sampai akhir petualangan. Pilih satu.</p>
+    <div class="doors" id="rewards"></div>
+  </section>
+
+  <!-- Hasil -->
+  <section class="panel" id="pEnd" hidden>
+    <h2 id="endTitle">PETUALANGAN BERAKHIR</h2>
+    <div class="muted" id="endSub"></div>
+    <div class="stats" id="endStats"></div>
+    <div class="lab" style="margin-top:0">Ketepatan per topik</div>
+    <div class="bars" id="endBars"></div>
+    <div class="tip" id="endTip"></div>
+    <div class="row">
+      <button type="button" class="btn" id="btnAgain">Main lagi</button>
+      <button type="button" class="btn ghost" id="btnMenu">Menu utama</button>
+    </div>
+  </section>
+
+  <div class="foot">
+    <button type="button" class="btn small ghost" id="btnSound">Suara: nyala</button>
+    <button type="button" class="btn small ghost" id="btnQuit" hidden>Menyerah</button>
+  </div>
+</div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* Layout: satu kolom. Kanvas dungeon di atas, panel aksi (menu / pintu / soal / hadiah / hasil) di bawahnya. */
+:root{
+  --bg:#12101d; --panel:#1d1a31; --panel-2:#2a2547; --line:#40396b;
+  --fg:#f1ecff; --muted:#a9a1cf;
+  --gold:#f2c14e; --gold-ink:#2a1d00; --good:#58d68d; --bad:#ff6b6b; --blue:#6c95f5; --torch:#ff9f43; --heart:#ff5470;
+  --display:'Press Start 2P',ui-monospace,Menlo,Consolas,monospace;
+  --body:'VT323',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:22px;line-height:1.25;padding-inline:16px;padding-block:14px 32px;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border-radius:0}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:760px;margin-inline:auto;display:grid;gap:12px}
+.wrap>*{min-width:0}
+
+#scene{width:100%;aspect-ratio:16/9;max-height:46vh;object-fit:contain;image-rendering:pixelated;background:#0d0a18;border:4px solid var(--line);display:block}
+
+.panel{background:var(--panel);border:4px solid var(--line);padding:16px;box-shadow:0 6px 0 #0a0814}
+.panel h2{font-family:var(--display);font-size:14px;line-height:1.5;margin:0 0 6px;color:var(--gold);letter-spacing:.04em}
+.muted{color:var(--muted)}
+
+/* HUD */
+.hud{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px}
+.hearts{display:flex;gap:4px}
+.hearts svg{width:24px;height:21px}
+.h.full{fill:var(--heart)}
+.h.empty{fill:#352e5c}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--display);font-size:10px;padding:7px 8px;background:var(--panel-2);border:2px solid var(--line);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.chip.hot{background:var(--torch);color:#2a1300;border-color:#ffcf99}
+.relics{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.relics canvas{width:30px;height:30px;image-rendering:pixelated;background:var(--panel-2);border:2px solid var(--line);padding:2px}
+
+/* Judul */
+.logo{font-family:var(--display);font-size:clamp(20px,6.2vw,34px);line-height:1.35;margin:0;color:var(--gold);text-shadow:3px 3px 0 #6a3d00,6px 6px 0 #0a0814;letter-spacing:.02em}
+.tag{color:var(--muted);font-size:25px;margin:8px 0 6px}
+.lab{font-family:var(--display);font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:16px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{background:var(--panel-2);border:3px solid var(--line);padding:8px 12px;font-size:24px;line-height:1.05;text-align:left}
+.opt small{display:block;font-size:18px;color:var(--muted)}
+.opt::before{content:"□ ";color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:#3a3260}
+.opt[aria-pressed="true"]::before{content:"■ ";color:var(--gold)}
+.how{margin:16px 0 0;padding:12px;background:#0f0c1d;border-left:6px solid var(--blue);font-size:21px;display:grid;gap:4px}
+.best{font-family:var(--display);font-size:10px;color:var(--muted);margin-top:14px;letter-spacing:.05em}
+
+.btn{font-family:var(--display);font-size:13px;letter-spacing:.04em;padding:14px 18px;background:var(--gold);color:var(--gold-ink);border:3px solid #fff1c4;box-shadow:0 5px 0 #8a5d00;text-transform:uppercase}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #8a5d00}
+.btn.ghost{background:var(--panel-2);color:var(--fg);border-color:var(--line);box-shadow:0 5px 0 #0a0814}
+.btn.ghost:active{box-shadow:0 1px 0 #0a0814}
+.btn.small{font-size:10px;padding:10px 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Peta & pintu */
+.track{display:flex;align-items:center;gap:6px;margin:10px 0 16px}
+.track hr{flex:1;border:0;border-top:3px dashed var(--line);margin:0}
+.node{width:20px;height:20px;background:#0d0a18;border:3px solid var(--line)}
+.node.done{background:var(--gold);border-color:#fff1c4}
+.node.cur{border-color:var(--gold);box-shadow:0 0 0 3px #f2c14e55}
+.node.boss{width:28px;height:28px;border-color:var(--bad)}
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.door{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;text-align:left;background:var(--panel-2);border:3px solid var(--line);box-shadow:0 5px 0 #0a0814;padding:12px}
+.door:hover{border-color:var(--gold)}
+.door canvas{width:76px;height:76px;image-rendering:pixelated;background:#0d0a18;border:2px solid var(--line)}
+.door .dl{font-family:var(--display);font-size:9px;color:var(--gold);letter-spacing:.08em;margin-bottom:4px}
+.door .dt{font-size:28px;line-height:1}
+.door .dd{font-size:19px;color:var(--muted);line-height:1.1;margin-top:3px}
+
+/* Soal */
+.qmeta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-family:var(--display);font-size:10px;color:var(--muted);letter-spacing:.06em}
+.q{font-size:clamp(32px,7vw,48px);text-align:center;margin:12px 0 14px;min-height:1.3em;text-wrap:balance;line-height:1.1}
+.timer{height:12px;background:#0d0a18;border:2px solid var(--line);margin-bottom:14px}
+.timer i{display:block;height:100%;width:100%;background:var(--gold)}
+.timer.low i{background:var(--bad)}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ans{position:relative;background:var(--panel-2);border:3px solid var(--line);box-shadow:0 5px 0 #0a0814;padding:16px 8px 14px;font-size:clamp(26px,5.5vw,34px);min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1}
+.ans .k{position:absolute;left:6px;top:5px;font-family:var(--display);font-size:8px;color:var(--muted)}
+.ans:hover:not(:disabled){border-color:var(--gold)}
+.ans:disabled{cursor:default}
+.ans.good{background:#1f5a38;border-color:var(--good);opacity:1}
+.ans.good::after{content:"✔";position:absolute;right:7px;top:4px;font-size:18px;color:var(--good)}
+.ans.bad{background:#6a2433;border-color:var(--bad)}
+.ans.bad::after{content:"✖";position:absolute;right:7px;top:4px;font-size:18px;color:var(--bad)}
+.ans.dim{opacity:.35}
+.fb{margin-top:14px;padding:12px;background:#0f0c1d;border-left:6px solid var(--bad);display:grid;gap:10px;font-size:23px;line-height:1.15}
+.fb b{color:var(--gold);font-weight:400}
+.fb .btn{justify-self:start}
+.tools{margin-top:12px}
+
+/* Pecahan */
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:.9;margin:0 .12em}
+.frac span{display:block;padding:0 .15em}
+.frac span:first-child{border-bottom:.07em solid currentColor}
+sup{font-size:.6em;line-height:0;vertical-align:super}
+
+/* Hasil */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-block:14px}
+.stat{background:var(--panel-2);border:2px solid var(--line);padding:8px 10px;font-size:19px;color:var(--muted)}
+.stat b{display:block;font-family:var(--display);font-size:14px;color:var(--gold);font-weight:400;margin-top:6px}
+.bars{display:grid;gap:8px;margin-bottom:14px}
+.bar{display:grid;grid-template-columns:minmax(0,150px) 1fr 44px;gap:8px;align-items:center;font-size:21px}
+.bar .tr{height:14px;background:#0d0a18;border:2px solid var(--line)}
+.bar .tr i{display:block;height:100%;background:var(--good)}
+.bar .pc{text-align:right;font-variant-numeric:tabular-nums}
+.tip{padding:12px;background:#0f0c1d;border-left:6px solid var(--gold);margin-bottom:14px;font-size:22px}
+
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Wajib: elemen dengan atribut hidden harus benar-benar tersembunyi */
+[hidden]{display:none!important}
+html,body{margin:0}
